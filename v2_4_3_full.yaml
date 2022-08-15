@@ -483,7 +483,7 @@ metadata:
   labels:
     app.kubernetes.io/name: aws-load-balancer-controller
   name: aws-load-balancer-controller-leader-election-role
-  namespace: kube-system
+  namespace: glyphx
 rules:
 - apiGroups:
   - ""
@@ -657,7 +657,7 @@ metadata:
   labels:
     app.kubernetes.io/name: aws-load-balancer-controller
   name: aws-load-balancer-controller-leader-election-rolebinding
-  namespace: kube-system
+  namespace: glyphx
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -665,7 +665,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: aws-load-balancer-controller
-  namespace: kube-system
+  namespace: glyphx
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -680,7 +680,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: aws-load-balancer-controller
-  namespace: kube-system
+  namespace: glyphx
 ---
 apiVersion: v1
 kind: Service
@@ -688,7 +688,7 @@ metadata:
   labels:
     app.kubernetes.io/name: aws-load-balancer-controller
   name: aws-load-balancer-webhook-service
-  namespace: kube-system
+  namespace: glyphx
 spec:
   ports:
   - port: 443
@@ -704,7 +704,7 @@ metadata:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: aws-load-balancer-controller
   name: aws-load-balancer-controller
-  namespace: kube-system
+  namespace: glyphx
 spec:
   replicas: 1
   selector:
@@ -719,7 +719,7 @@ spec:
     spec:
       containers:
       - args:
-        - --cluster-name=your-cluster-name
+        - --cluster-name=demo
         - --ingress-class=alb
         image: amazon/aws-alb-ingress-controller:v2.4.3
         livenessProbe:
@@ -767,7 +767,7 @@ metadata:
   labels:
     app.kubernetes.io/name: aws-load-balancer-controller
   name: aws-load-balancer-serving-cert
-  namespace: kube-system
+  namespace: glyphx
 spec:
   dnsNames:
   - aws-load-balancer-webhook-service.kube-system.svc
@@ -783,7 +783,7 @@ metadata:
   labels:
     app.kubernetes.io/name: aws-load-balancer-controller
   name: aws-load-balancer-selfsigned-issuer
-  namespace: kube-system
+  namespace: glyphx
 spec:
   selfSigned: {}
 ---
@@ -801,7 +801,7 @@ webhooks:
   clientConfig:
     service:
       name: aws-load-balancer-webhook-service
-      namespace: kube-system
+      namespace: glyphx
       path: /mutate-v1-pod
   failurePolicy: Fail
   name: mpod.elbv2.k8s.aws
@@ -832,7 +832,7 @@ webhooks:
   clientConfig:
     service:
       name: aws-load-balancer-webhook-service
-      namespace: kube-system
+      namespace: glyphx
       path: /mutate-elbv2-k8s-aws-v1beta1-targetgroupbinding
   failurePolicy: Fail
   name: mtargetgroupbinding.elbv2.k8s.aws
@@ -862,7 +862,7 @@ webhooks:
   clientConfig:
     service:
       name: aws-load-balancer-webhook-service
-      namespace: kube-system
+      namespace: glyphx
       path: /validate-elbv2-k8s-aws-v1beta1-targetgroupbinding
   failurePolicy: Fail
   name: vtargetgroupbinding.elbv2.k8s.aws
@@ -882,7 +882,7 @@ webhooks:
   clientConfig:
     service:
       name: aws-load-balancer-webhook-service
-      namespace: kube-system
+      namespace: glyphx
       path: /validate-networking-v1-ingress
   failurePolicy: Fail
   matchPolicy: Equivalent
